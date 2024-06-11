@@ -1,15 +1,18 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from './Navbar'
+import axios from 'axios'
 
 const View = () => {
-    const [book, changeBook] = useState(
-        [
-            {"title":"Rad",
-            "id": "iyuui",
-            "author":"fg",
-            "pubyear":"jiil"}
-    ]
-    )
+    const [book, changeBook] = useState([])
+    const fetchData=()=>{
+        axios.get("http://localhost:8081/view").then(
+            (response)=>{
+                changeBook(response.data)
+            }
+        ).catch()
+    }
+    useEffect(()=>{fetchData()},[])
+        
     return (
         <div>
             <Navbar/>
@@ -31,7 +34,7 @@ const View = () => {
                                         return <tbody>
                                         <tr>
                                             <td scope="row">{value.id}</td>
-                                            <td>{value.name}</td>
+                                            <td>{value.title}</td>
                                             <td>{value.author}</td>
                                             <td>{value.pubyear}</td>
                                         </tr>
